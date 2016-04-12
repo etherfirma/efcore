@@ -21,14 +21,14 @@ public class DebugStateEntryListener
     }
 
     /**
-     *  @see weaselworks.state.StateEntryListener#stateEntered(weaselworks.state.TransitionEvent)
+     *  @see #stateEntered(TransitionEvent)
      */
 
     public
     void stateEntered (final TransitionEvent tevt)
     {
         final State state = tevt.getEndState ();
-        final Map<String, Transition> transitions = state.getTransitions (); 
+        final Map<String, Transition> transitions = state.getTransitions ();
         String possible = "";
 
         for (final Transition transition : transitions.values ()) { 

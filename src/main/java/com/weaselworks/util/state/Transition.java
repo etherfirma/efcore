@@ -10,7 +10,7 @@ package com.weaselworks.util.state;
  *  @see weaselworks.state.State
  */
 
-public class Transition
+public class Transition<T extends State>
 {
     /**
      *
@@ -19,38 +19,38 @@ public class Transition
      */
 
     public
-    Transition (final State startState, final State endState)
+    Transition (final T startState, final T endState)
     {
         setStartState (startState);
         setEndState (endState);
         return;
     }
 
-    protected State startState;
+    protected T startState;
 
     public
-    State getStartState ()
+    T getStartState ()
     {
         return this.startState;
     }
 
     protected
-    void setStartState (final State startState)
+    void setStartState (final T startState)
     {
         this.startState = startState;
         return;
     }
 
-    protected State endState;
+    protected T endState;
 
     public
-    State getEndState ()
+    T getEndState ()
     {
         return this.endState;
     }
 
     protected
-    void setEndState (final State endState)
+    void setEndState (final T endState)
     {
         this.endState = endState;
         return;

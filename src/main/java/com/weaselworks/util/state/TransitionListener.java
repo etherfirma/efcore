@@ -18,7 +18,6 @@ public interface TransitionListener
      *  @param evt carries addition information about the transition
      */
 
-    public
     void transitionOccurred (final TransitionEvent evt);
 }
 

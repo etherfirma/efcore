@@ -1,0 +1,93 @@
+//
+// % gradle -b build-kpmg.gradle artifactoryPublish
+//
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: "com.jfrog.artifactory"
+
+defaultTasks 'clean', 'build'
+
+version = new File ("$rootDir/version.txt").text.trim ()
+group = 'com.etherfirma'
+archivesBaseName = 'efcore'
+description = 'The core Java library'
+
+buildscript {
+    repositories {
+        jcenter ()
+    }
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1"
+    }
+}
+
+test {
+    useTestNG()
+}
+
+configurations { 
+  deployerJars 
+}
+
+jar {
+    manifest {
+        attributes(
+                "Artifact-Group": group,
+                "Artifact-Version": version,
+                "Artifact-Name": archivesBaseName,
+                "Build-Assembly-User": System.getProperty ("user.name"),
+                "Build-Assembly-Date": new java.util.Date ().toString ()
+        )
+    }
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
+}
+
+dependencies { 
+  compile 'org.json:json:20090211'
+  compile 'log4j:log4j:1.2.16'
+  compile 'org.testng:testng:6.5.2'
+  compile 'javax.transaction:jta:1.1'
+  compile 'javax.servlet:servlet-api:2.5'
+  compile 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.1'
+
+  compile group: 'io.vertx', name: 'vertx-core', version: '2.1.6'
+    testCompile 'org.testng:testng:6.0.1'
+
+  deployerJars 'org.apache.maven.wagon:wagon-webdav-jackrabbit:1.0-beta-7'
+}
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"
+    publish {
+        repository {
+            repoKey = version.endsWith ('-SNAPSHOT') ? 'dql-snapshot-local' : 'dql-release-local'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+        }
+        defaults {
+            publications ('mavenJava')
+        }
+        clientConfig.info.buildNumber = "$version" // where buildNumber is passed in by jenkins
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId group
+            artifactId 'efcore'
+            version version
+
+            from components.java
+        }
+    }
+}
+
+// EOF 

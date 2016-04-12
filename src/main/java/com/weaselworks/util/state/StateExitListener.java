@@ -7,7 +7,7 @@ import java.util.*;
  *  entry events.
  */
 
-public interface StateExitListener
+public interface StateExitListener<T extends State>
     extends EventListener
 {
     /**

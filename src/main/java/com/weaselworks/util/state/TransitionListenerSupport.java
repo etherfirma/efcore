@@ -10,7 +10,7 @@ import com.weaselworks.util.*;
  *  of {@link TransitionListener TransitionListeners} for notification. </p>
  */
 
-class TransitionListenerSupport
+class TransitionListenerSupport<T extends State>
     extends ListenerSupport
 {
     public

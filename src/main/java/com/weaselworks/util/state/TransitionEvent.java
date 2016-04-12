@@ -3,21 +3,21 @@ package com.weaselworks.util.state;
 import java.util.*;
 
 /**
- *  An event object representing the occurrence of a {@link weaselworks.state.Transition} within a {@link weaselworks.state.StateMachine}. </p>
+ *  An event object representing the occurrence of a {@link Transition} within a {@link StateMachine}. </p>
  *
- *  Each {@link weaselworks.state.TransitionEvent} contains a reference to the originating or 'start' {@link weaselworks.state.State} and a reference
- *  to the target or 'end' {@link weaselworks.state.State}. Transition events are sent to all {@link weaselworks.state.StateEntryListener
- *  StateEntryListeners}, {@link weaselworks.state.TransitionListener TransitionListeners}, and {@link weaselworks.state.StateExitListener
+ *  Each {@link TransitionEvent} contains a reference to the originating or 'start' {@link State} and a reference
+ *  to the target or 'end' {@link State}. Transition events are sent to all {@link StateEntryListener
+ *  StateEntryListeners}, {@link TransitionListener TransitionListeners}, and {@link StateExitListener
  *  StateExitListeners} during state machine operation. </p>
  *
- *   Note that When a {@link weaselworks.state.StateMachine} is first started a transition from no
- *  {@link weaselworks.state.State} to the initial state occurs. In this case any {@link weaselworks.state.StateEntryListener StateEntryListeners}
- *  attached to the initial state will receive a {@link weaselworks.state.TransitionEvent} in which the {@link #getStartState start
+ *   Note that When a {@link StateMachine} is first started a transition from no
+ *  {@link State} to the initial state occurs. In this case any {@link StateEntryListener StateEntryListeners}
+ *  attached to the initial state will receive a {@link TransitionEvent} in which the {@link #getStartState start
  *  state} in null. </p>
  *
- *  @see weaselworks.state.StateEntryListener
- *  @see weaselworks.state.StateExitListener
- *  @see weaselworks.state.TransitionListener
+ *  @see com.weaselworks.util.state.StateEntryListener
+ *  @see com.weaselworks.util.state.StateExitListener
+ *  @see com.weaselworks.util.state.TransitionListener
  */
 
 @SuppressWarnings ("serial")
@@ -62,6 +62,10 @@ public class TransitionEvent
         this.endState = endState;
         return;
     }
+
+    protected String bounceState;
+    public String getBounceState () { return this.bounceState; }
+    public void setBounceState (final String bounceState) { this.bounceState = bounceState; return; }
 }
 
 // EOF

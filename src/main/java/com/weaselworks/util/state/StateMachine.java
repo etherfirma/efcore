@@ -3,8 +3,8 @@ package com.weaselworks.util.state;
 import java.util.*;
 
 /**
- *  Represents a finite state machine containing {@link weaselworks.state.State States} and a set of allowable
- *  {@link weaselworks.state.Transition Transitions} between those states. </p>
+ *  Represents a finite state machine containing {@link State States} and a set of allowable
+ *  {@link Transition Transitions} between those states. </p>
  *
  *  An example {@link StateMachine} representing the human life-cycle: </p>
  *
@@ -93,7 +93,7 @@ public class StateMachine
             throw new IllegalStateException ("Already started.");
         }
 
-        // Initalize the current state from the specified initial state
+        // Initialize the current state from the specified initial state
 
         if (getInitialState () == null) {
             throw new IllegalStateException ("No initial state specified.");
@@ -110,6 +110,9 @@ public class StateMachine
 
         final TransitionEvent tevt = new TransitionEvent (null, state);
         state.notifyEntryListeners (tevt);
+        if (tevt.getBounceState () != null) {
+            transition (tevt.getBounceState ());
+        }
         return;
     }
 
@@ -179,6 +182,9 @@ public class StateMachine
         trans.notifyTransitionListeners (tevt);
         setCurrentState (endState);
         endState.entering (tevt);
+        if (tevt.getBounceState () != null) {
+            transition (tevt.getBounceState ());
+        }
         return;
     }
 

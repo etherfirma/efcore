@@ -54,7 +54,7 @@ public class Interpreter
     
     protected Map<String, Object> state = new HashMap<String, Object> (); 
     public Map<String, Object> getState () { return this.state; } 
-    public Object getState (final String key) { return this.state.get (key); } 
+    public <T> T getState (final String key) { return (T) this.state.get (key); }
     public void setState (final String key, final String value) { this.state.put (key, value); return; } 
         
     protected Map<String, Command> commands = new HashMap<String, Command> (); 
@@ -67,7 +67,15 @@ public class Interpreter
     	addCommand (cmd.getName (), cmd);
     	return; 
     }
-    
+
+    public
+    void addCommands (final Command... cmds) {
+        for (final Command cmd : cmds) {
+            addCommand (cmd);
+        }
+        return;
+    }
+
     public
     void addCommand (final String name, final Command cmd)
     {
@@ -123,7 +131,14 @@ public class Interpreter
     protected boolean quit; 
     public boolean getQuit () { return this.quit; } 
     public void setQuit (final boolean quit) { this.quit = quit; return; } 
-    
+
+    public
+    void interpret ()
+    {
+        interpret (new InputStreamReader (System.in), new OutputStreamWriter (System.out));
+        return;
+    }
+
     public 
     void interpret (final Reader r, final Writer w) 
     {
@@ -156,7 +171,7 @@ public class Interpreter
 
     /**
      * 
-     * @param args
+     * @param cline
      * @return
      */
     
@@ -300,8 +315,6 @@ public class Interpreter
 
         return args; 
     }
-
-
 }
 
 // EOF

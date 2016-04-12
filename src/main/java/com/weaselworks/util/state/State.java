@@ -3,26 +3,18 @@ package com.weaselworks.util.state;
 import java.util.*;
 
 /**
- *  Represents a distinct state in a {@link weaselworks.state.StateMachine}. Each {@link weaselworks.state.State} has a set
- *  of allowable {@link weaselworks.state.Transition Transitions} through which the state may be changed. </p>
+ *  Represents a distinct state in a {@link StateMachine}. Each {@link State} has a set
+ *  of allowable {@link Transition Transitions} through which the state may be changed. </p>
  *
- *  A {@link weaselworks.state.State} can have a set of {@link weaselworks.state.StateEntryListener StateEntryListeners}
+ *  A {@link State} can have a set of {@link StateEntryListener StateEntryListeners}
  *   and/or {@link StateExitListener StateExitListeners} that are notified whenever the State is entered or exited.
  *
- *  @see weaselworks.state.StateMachine
- *  @see weaselworks.state.Transition
+ *  @see StateMachine
+ *  @see Transition
  */
 
 public class State
 {
-    public
-    State (final String name)
-    {
-        assert name != null;
-        setName (name);
-        return;
-    }
-
     public
     State (final String name, final StateMachine fsm)
     {
@@ -206,6 +198,16 @@ public class State
     }
 
     protected Map<String, Transition> transitions = new HashMap<String, Transition> ();
+
+    public
+    List<Transition> addTransitions (final State... states)
+    {
+        final List<Transition> transitions = new ArrayList<Transition>();
+        for (final State state : states) {
+            transitions.add (addTransition (state));
+        }
+        return transitions;
+    }
 
     /**
      *
